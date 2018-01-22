@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - KillZone
+  - SmallPlank
+  - MediumPlank
+  - LargePlank
   layers:
   - Default
   - TransparentFX
