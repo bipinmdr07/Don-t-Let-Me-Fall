@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 65040478995717946}
   - component: {fileID: 23196581244420368}
   - component: {fileID: 54610267675775326}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: LargeBoard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
