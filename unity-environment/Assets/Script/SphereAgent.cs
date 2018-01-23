@@ -43,7 +43,7 @@ public class SphereAgent : Agent {
 
 		// if the ball is touching the plank then the agent is doing well
 		if (transform.GetComponent<PlayerScript>().rolling){
-			reward = 0.1f;
+			reward += 0.1f;
 		}
 	}
 
