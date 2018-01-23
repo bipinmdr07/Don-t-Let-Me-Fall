@@ -12,29 +12,46 @@ public class GameControllerScript : MonoBehaviour {
 	private Rigidbody ballRigidbody;
 	private Transform player;
 
-	public int speed = 10;
+	[HideInInspector]
+	public int speed;
 	[SerializeField]
-	private int jump = 400;
+	private int jump;
 
 	private PlayerScript ps;
 
 	private float gap_min_range = 5f;
-	private float gap_max_range = 7f;
+	private float gap_max_range = 10f;
+
+	public Brain brain_A;
+//	public Brain brain_B;
 
 	private float plankGap; // int the range of 0.5 to 0.8
-	private float endOfCurrentPlank, beginingOfNextPlank, endOfNextPlank;
+	[HideInInspector]
+	public float endOfCurrentPlank, beginingOfNextPlank, endOfNextPlank;
+	private bool rollingOnTop = true;
+
+	private Vector3 raycastDir;
+	RaycastHit ray;
 
 	private int index;
 
 	// Use this for initialization
 	void Start () {
+		speed = 10;
+		jump = 400;
+
+		raycastDir = new Vector3 (0, -1, 0);
 
 		index = Random.Range (0, 3);
 		Instantiate (planks [index], new Vector3 (0, 0, 0), Quaternion.identity, transform);
 		player = Instantiate (ball, new Vector3 (0, 2f, 0), Quaternion.identity) as Transform;
+
+		player.GetComponent<SphereAgent> ().GiveBrain (brain_A);
+		player.GetComponent<SphereAgent> ().gameController = transform;
 		ps = player.GetComponent<PlayerScript> ();
 
 		ballRigidbody = player.GetComponent<Rigidbody> ();
+		ballRigidbody.velocity = new Vector3(speed, 0, 0);
 
 		switch (index) {
 		case 0:
@@ -71,6 +88,14 @@ public class GameControllerScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (Physics.Raycast (player.position, raycastDir, out ray, 5)) {
+			rollingOnTop = true;
+		} else {
+			rollingOnTop = false;
+		}
+
+		ballRigidbody.velocity = speed * (ballRigidbody.velocity.normalized);
+
 		mainCamera.transform.position = new Vector3(player.position.x, mainCamera.transform.position.y, mainCamera.transform.position.z);
 
 		// if the player go to next plank then we need to create another one next to it.
@@ -138,15 +163,22 @@ public class GameControllerScript : MonoBehaviour {
 		}
 			
 		// game over if player fall below y = -1;
-		if (player.position.y < -1) {
-			SceneManager.LoadScene (SceneManager.GetActiveScene ().buildIndex);
-		}
+//		if (player.position.y < -1) {
+//			SceneManager.LoadScene (SceneManager.GetActiveScene ().buildIndex);
+//		}
 		
 		// check if player is touching the plank or is in the air, shouldn't jump if player is not touching the plank
-		if (Input.GetKeyDown (KeyCode.Space) && ps.rolling) {
+//		if (Input.GetKeyDown (KeyCode.Space)) {
+//			Jump ();
+//		}
+
+//		ballRigidbody.velocity = new Vector3 (speed, 0, 0) * Time.deltaTime;
+//		ballRigidbody.AddForce (new Vector3 (speed, 0, 0) * Time.deltaTime);
+	}
+
+	public void Jump(){
+		if (ps.rolling && rollingOnTop) {
 			ballRigidbody.AddForce (new Vector3 (0, jump, 0));
 		}
-
-		ballRigidbody.AddForce (new Vector3 (speed, 0, 0) * Time.deltaTime);
 	}
 }

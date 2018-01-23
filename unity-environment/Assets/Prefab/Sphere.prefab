@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 23948950965384698}
   - component: {fileID: 54592694648983694}
   - component: {fileID: 114189471081959250}
+  - component: {fileID: 114325743514832678}
   m_Layer: 0
   m_Name: Sphere
   m_TagString: Untagged
@@ -112,6 +113,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rolling: 1
+--- !u!114 &114325743514832678
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1664902413970056}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92bff7396edb8b241a512a5e1a098ffa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  brain: {fileID: 0}
+  observations: []
+  maxStep: 0
+  resetOnDone: 1
+  reward: 0
+  done: 0
+  value: 0
+  CumulativeReward: 0
+  stepCounter: 0
+  agentStoredAction: []
+  memory: []
+  id: 0
+  gameController: {fileID: 0}
 --- !u!135 &135797398068604870
 SphereCollider:
   m_ObjectHideFlags: 1
